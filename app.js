@@ -14,7 +14,15 @@ const generateHashedpassword=async(password)=>{
     return bcrypt.hash(password,salt)
 }
 
-
+app.post("/signup",async(req,res)=>{
+    let input =req.body
+    let hashedpassword=await generateHashedpassword(input.password)
+    console.log(hashedpassword)
+    input.password=hashedpassword
+    let ksrtc=new ksrtcmodel(input)
+    ksrtc.save()
+    res.json({"status":"success"})
+})
 
 app.listen(7070,()=>{
     console.log("server started")
